@@ -21,16 +21,21 @@ public class Grafo {
 
 	// metodo que cadastra as arestas
 	public void cadastraAresta(String valoradoSN, String orientadoSN) {
-		// os métodos abaixo mudam os booleanos de acordo com a resposta
+		// os dois métodos abaixo mudam os booleanos de acordo com a resposta
 		isGrafoValorado(valoradoSN);
 		isGrafoOrientado(orientadoSN);
 		Scanner scan = new Scanner(System.in);
 		String operacao = "";
 		int i = 1;
+		/*
+		 * Os dois vértices aabaixo pegarão o mesmo valor dos vértices inseridos no laço
+		 * de repetição abaixo Dessa forma é possível fazer uma comparação usando um
+		 * método para saber se já existe na lista a aresta em questão
+		 */
+		Vertice vEnt = new Vertice();
+		Vertice vSai = new Vertice();
 		do {
 			Aresta aresta = new Aresta();
-			// Vertice vEntrada = new Vertice();
-			// Vertice vSaida = new Vertice();
 			mostrarVertices();
 			int posMinimo = 1;
 			int posMaximo = listaVertices.size();
@@ -44,6 +49,7 @@ public class Grafo {
 					scan.nextLine();
 					if ((pos >= posMinimo) && (pos <= posMaximo)) {
 						aresta.setVEntrada(listaVertices.get(pos - 1));
+						vEnt = aresta.getVEntrada();
 						break;
 					} else {
 						System.out.println("opção inválida");
@@ -64,6 +70,7 @@ public class Grafo {
 					scan.nextLine();
 					if ((pos >= posMinimo) && (pos <= posMaximo)) {
 						aresta.setVSaida(listaVertices.get(pos - 1));
+						vSai = aresta.getVSaida();
 						break;
 					} else {
 						System.out.println("opção inválida");
@@ -74,34 +81,54 @@ public class Grafo {
 					pos = -1;
 				}
 			} while ((pos < posMinimo) || (pos > posMaximo));
-			// se for valorado pede valor, se não atribui 0 ao valor
-			if (isValorado == false) {
-				aresta.setValorAresta(0.0);
-			} else {
-				if (aresta.getVEntrada() != aresta.getVSaida()) {
-					// com esse if, se o vértice de entrada for igual ao de saída será atribuido
-					// valor 0
-					do {
-						try {
-							System.out.println("Digite o valor da aresta " + i + "");
-							System.out.print("resposta: ");
-							aresta.setValorAresta(scan.nextDouble());
-							scan.nextLine();
-						} catch (InputMismatchException e) {
-							System.out.println("Valor inválido");
-							aresta.setValorAresta(0.0);
-							scan.nextLine();
-						}
-					} while (aresta.getValorAresta() == 0);
-				} else {
+			// o if abaixo verifica se a aresta já existe, se não existir aí sim insere ela
+			if (existeAresta(vEnt, vSai) == false) {
+				// se for valorado pede valor, se não atribui 0 ao valor
+				if (isValorado == false) {
 					aresta.setValorAresta(0.0);
+				} else {
+					if (aresta.getVEntrada() != aresta.getVSaida()) {
+						// com esse if, se o vértice de entrada for igual ao de saída será atribuido
+						// valor 0
+						do {
+							try {
+								System.out.println("Digite o valor da aresta " + i + "");
+								System.out.print("resposta: ");
+								aresta.setValorAresta(scan.nextDouble());
+								scan.nextLine();
+							} catch (InputMismatchException e) {
+								System.out.println("Valor inválido");
+								aresta.setValorAresta(0.0);
+								scan.nextLine();
+							}
+						} while (aresta.getValorAresta() == 0);
+					} else {
+						aresta.setValorAresta(0.0);
+					}
 				}
+				listaArestas.add(aresta);
+				// caso não seja orientado é preciso adicionar o caminho contrário, isso é feito
+				// abaixo
+				if (isOrientado == false) {
+					if (vEnt != vSai) {
+						Vertice vAux = new Vertice();
+						Aresta aAux = new Aresta();
+						vAux = vEnt;
+						vEnt = vSai;
+						vSai = vAux;
+						aAux.setVEntrada(vEnt);
+						aAux.setVSaida(vSai);
+						aAux.setValorAresta(aresta.getValorAresta());
+						listaArestas.add(aAux);
+					}
+				}
+				i++;
+				do {
+					operacao = JOptionPane.showInputDialog("Deseja cadastrar mais arestas? (S/N)");
+				} while ((!operacao.equalsIgnoreCase("S")) && (!operacao.equalsIgnoreCase("N")));
+			} else {
+				System.out.println("A aresta já existe no grafo. \nInsira outra aresta.");
 			}
-			listaArestas.add(aresta);
-			i++;
-			do {
-				operacao = JOptionPane.showInputDialog("Deseja cadastrar mais arestas? (S/N)");
-			} while ((!operacao.equalsIgnoreCase("S")) && (!operacao.equalsIgnoreCase("N")));
 		} while (operacao.equalsIgnoreCase("S"));
 	}
 
@@ -120,6 +147,18 @@ public class Grafo {
 		} while (operacao.equalsIgnoreCase("S"));
 	}
 
+	// verifica se aresta já existe no grafo e retorna um booleano
+	public boolean existeAresta(Vertice vEnt, Vertice vSai) {
+		for (int i = 0; i < listaArestas.size(); i++) {
+			if (listaArestas.get(i).getVEntrada() == vEnt) {
+				if (listaArestas.get(i).getVSaida() == vSai) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	// método usado para mostrar os vértices cadastrados
 	public void mostrarVertices() {
 		System.out.println();
@@ -129,6 +168,22 @@ public class Grafo {
 			System.out.print((i + 1) + " - " + listaVertices.get(i).getNomeDoVertice() + ", ");
 		}
 		System.out.println(listaVertices.size() + " - " + listaVertices.get(ultimoDoVertice).getNomeDoVertice());
+	}
+
+	// metodo que faz a lista de arestas
+	public void listaDeArestas() {
+		System.out.println();
+		System.out.println("Lista de arestas: ");
+		for (int i = 0; i < listaArestas.size(); i++) {
+			if (isValorado == true) {
+				System.out.println(listaArestas.get(i).getVEntrada().getNomeDoVertice().toUpperCase() + ""
+						+ listaArestas.get(i).getVSaida().getNomeDoVertice().toUpperCase() + ""
+						+ listaArestas.get(i).getValorAresta());
+			} else {
+				System.out.println(listaArestas.get(i).getVEntrada().getNomeDoVertice().toUpperCase() + ""
+						+ listaArestas.get(i).getVSaida().getNomeDoVertice().toUpperCase());
+			}
+		}
 	}
 
 	// metodo que define se o grafo é valorado e muda o booleano

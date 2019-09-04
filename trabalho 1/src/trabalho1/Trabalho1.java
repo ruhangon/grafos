@@ -39,5 +39,8 @@ public class Trabalho1 {
 		Grafo grafo = new Grafo();
 		grafo.cadastraQtdVertice();
 		grafo.cadastraAresta(valorado, orientado);
+		grafo.listaDeArestas();
+
+
 	}
 }
