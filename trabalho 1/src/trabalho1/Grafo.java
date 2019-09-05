@@ -186,6 +186,26 @@ public class Grafo {
 		}
 	}
 
+	// resolve a matriz de adjacência
+	public void matrizDeAdjacencia() {
+		int j = 0;
+		System.out.println();
+		System.out.println("Matriz de adjacência");
+		for (int i = 0; i < listaVertices.size(); i++) {
+			Vertice vEnt = listaVertices.get(i);
+			for (j = 0; j < listaVertices.size(); j++) {
+				Vertice vSai = listaVertices.get(j);
+				if (existeAresta(vEnt, vSai) == true) {
+					System.out.print("1");
+				} else {
+					System.out.print("0");
+				}
+			}
+			System.out.println();
+			j = 0;
+		}
+	}
+
 	// metodo que define se o grafo é valorado e muda o booleano
 	public void isGrafoValorado(String valoradoSN) {
 		if (valoradoSN.equalsIgnoreCase("S")) {

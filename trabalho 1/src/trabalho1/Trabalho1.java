@@ -40,7 +40,9 @@ public class Trabalho1 {
 		grafo.cadastraQtdVertice();
 		grafo.cadastraAresta(valorado, orientado);
 		grafo.listaDeArestas();
+		grafo.matrizDeAdjacencia();
 
+		System.out.println("\n \nFim do programa");
 
 	}
 }
