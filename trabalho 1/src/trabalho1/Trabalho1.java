@@ -41,6 +41,7 @@ public class Trabalho1 {
 		grafo.cadastraAresta(valorado, orientado);
 		grafo.listaDeArestas();
 		grafo.matrizDeAdjacencia();
+		grafo.listaDeAdjacencia();
 
 		System.out.println("\n \nFim do programa");
 

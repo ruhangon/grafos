@@ -206,6 +206,41 @@ public class Grafo {
 		}
 	}
 
+	// resolve a lista de adjacência
+	public void listaDeAdjacencia() {
+		int i = 0;
+		int j = 0;
+		Vertice vAdj;
+		ArrayList<Vertice> vAux;
+		System.out.println();
+		System.out.println("Lista de adjacência");
+		for (i = 0; i < listaVertices.size(); i++) {
+			vAux = new ArrayList<Vertice>();
+			Vertice vEnt = listaVertices.get(i);
+			for (j = 0; j < listaVertices.size(); j++) {
+				Vertice vSai = listaVertices.get(j);
+				if (existeAresta(vEnt, vSai) == true) {
+					vAux.add(vSai);
+				}
+			}
+			j = 0;
+			vAdj = new Vertice();
+			vAdj.setAdjacentes(vAux);
+			// agora lista os vértices adjacentes no trecho abaixo
+			for (int k = 0; k < vAux.size(); k++) {
+				if (k == 0) {
+					System.out.print(listaVertices.get(i).getNomeDoVertice() + " -> ");
+				}
+				if (k != (vAux.size() - 1)) {
+					System.out.print(vAdj.getAdjacentes().get(k).getNomeDoVertice() + ", ");
+				} else {
+					System.out.println(vAdj.getAdjacentes().get(k).getNomeDoVertice());
+				}
+			}
+			vAux.clear();
+		}
+	}
+
 	// metodo que define se o grafo é valorado e muda o booleano
 	public void isGrafoValorado(String valoradoSN) {
 		if (valoradoSN.equalsIgnoreCase("S")) {
