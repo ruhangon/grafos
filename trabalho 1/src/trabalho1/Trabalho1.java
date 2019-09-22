@@ -1,6 +1,6 @@
 package trabalho1;
 
-import javax.swing.JOptionPane;
+import java.util.Scanner;
 
 /*
 * Autores:
@@ -10,26 +10,33 @@ import javax.swing.JOptionPane;
 
 public class Trabalho1 {
 	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
 		System.out.println("Atividade 1 de grafos");
 
 		// armazena se o grafo é orientado ou não, valorado ou não, e joga para outras
 		// variáveis
-		String orientado = "";
-		String valorado = "";
+		char orientado;
+		char valorado;
+		// descobre se é orientado ou não
 		do {
-			orientado = JOptionPane.showInputDialog(
-					"O grafo será orientado (S/N)" + "\n" + "CASO ESCREVA 'N' SERÁ TRATADO COMO GRAFO NÃO ORIENTADO");
-		} while ((!orientado.equalsIgnoreCase("S")) && (!orientado.equalsIgnoreCase("N")));
-		if (orientado.equalsIgnoreCase("S")) {
+			System.out.println("O grafo será orientado? (s/n)");
+			System.out.print("resposta: ");
+			orientado = scan.nextLine().charAt(0);
+		} while ((orientado != 's') && (orientado != 'n'));
+		// descobre se é valorado ou não
+		do {
+			System.out.println("O grafo será valorado? (s/n)");
+			System.out.print("resposta: ");
+			valorado = scan.nextLine().charAt(0);
+		} while ((valorado != 's') && (valorado != 'n'));
+
+		if (orientado == 's') {
 			System.out.print("Orientado / ");
 		} else {
 			System.out.print("Não Orientado / ");
 		}
-		do {
-			valorado = JOptionPane.showInputDialog(
-					"O grafo será valorado (S/N)" + "\n" + "CASO ESCREVA 'N' SERÁ TRATADO COMO GRAFO NÃO VALORADO");
-		} while ((!valorado.equalsIgnoreCase("S")) && (!valorado.equalsIgnoreCase("N")));
-		if (valorado.equalsIgnoreCase("S")) {
+
+		if (valorado == 's') {
 			System.out.println("Valorado");
 		} else {
 			System.out.println("Não Valorado");
@@ -37,7 +44,7 @@ public class Trabalho1 {
 		System.out.println();
 
 		Grafo grafo = new Grafo();
-		grafo.cadastraQtdVertice();
+		grafo.cadastraVertice();
 		grafo.cadastraAresta(valorado, orientado);
 		grafo.listaDeArestas();
 		grafo.matrizDeAdjacencia();

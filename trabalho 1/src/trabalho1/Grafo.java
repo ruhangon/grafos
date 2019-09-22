@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-//criacao do objeto grafo para ajudar na implementação
+//criação do objeto grafo para ajudar na implementação
 public class Grafo {
 
 	/*
@@ -20,12 +20,12 @@ public class Grafo {
 	private Boolean isValorado;
 
 	// metodo que cadastra as arestas
-	public void cadastraAresta(String valoradoSN, String orientadoSN) {
+	public void cadastraAresta(char valoradoSN, char orientadoSN) {
 		// os dois métodos abaixo mudam os booleanos de acordo com a resposta
 		isGrafoValorado(valoradoSN);
 		isGrafoOrientado(orientadoSN);
 		Scanner scan = new Scanner(System.in);
-		String operacao = "";
+		char operacao='s';
 		int i = 1;
 		/*
 		 * Os dois vértices aabaixo pegarão o mesmo valor dos vértices inseridos no laço
@@ -124,18 +124,20 @@ public class Grafo {
 				}
 				i++;
 				do {
-					operacao = JOptionPane.showInputDialog("Deseja cadastrar mais arestas? (S/N)");
-				} while ((!operacao.equalsIgnoreCase("S")) && (!operacao.equalsIgnoreCase("N")));
+					System.out.println("Deseja cadastrar mais arestas? (s/n)");
+					System.out.print("resposta: ");
+					operacao = scan.nextLine().charAt(0);
+				} while ((operacao != 's') && (operacao != 'n'));
 			} else {
 				System.out.println("A aresta já existe no grafo. \nInsira outra aresta.");
 			}
-		} while (operacao.equalsIgnoreCase("S"));
+		} while (operacao != 'n');
 	}
 
 	// metodo que irá cadastrar os vértices do grafo
-	public void cadastraQtdVertice() {
+	public void cadastraVertice() {
 		Scanner scan = new Scanner(System.in);
-		String operacao = "";
+		char operacao='s';
 		do {
 			System.out.println("Digite o nome do vértice");
 			System.out.print("resposta: ");
@@ -143,8 +145,12 @@ public class Grafo {
 			Vertice vertice = new Vertice();
 			vertice.setNomeDoVertice(nomeV);
 			listaVertices.add(vertice);
-			operacao = JOptionPane.showInputDialog("Deseja cadastrar mais algum vértice? (S/N)");
-		} while (operacao.equalsIgnoreCase("S"));
+			do {
+				System.out.println("Deseja cadastrar mais algum vértice? (s/n)");
+				System.out.print("resposta: ");
+				operacao = scan.nextLine().charAt(0);
+			} while ((operacao != 's') && (operacao != 'n'));
+		} while (operacao != 'n');
 	}
 
 	// verifica se aresta já existe no grafo e retorna um booleano
@@ -242,8 +248,8 @@ public class Grafo {
 	}
 
 	// metodo que define se o grafo é valorado e muda o booleano
-	public void isGrafoValorado(String valoradoSN) {
-		if (valoradoSN.equalsIgnoreCase("S")) {
+	public void isGrafoValorado(char valoradoSN) {
+		if (valoradoSN == 's') {
 			isValorado = true;
 		} else {
 			isValorado = false;
@@ -251,8 +257,8 @@ public class Grafo {
 	}
 
 	// metodo que define se o grafo é orientado e muda o booleano
-	public void isGrafoOrientado(String orientadoSN) {
-		if (orientadoSN.equalsIgnoreCase("S")) {
+	public void isGrafoOrientado(char orientadoSN) {
+		if (orientadoSN == 's') {
 			isOrientado = true;
 		} else {
 			isOrientado = false;
