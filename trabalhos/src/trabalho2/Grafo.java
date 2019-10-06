@@ -206,7 +206,6 @@ public class Grafo {
 				scan.nextLine();
 				if ((pos >= posMinimo) && (pos <= posMaximo)) {
 					vInicio = listaVertices.get(pos - 1);
-					listaVertices.get(pos - 1).setDistancia(0);
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("opção inválida");
@@ -214,16 +213,19 @@ public class Grafo {
 				pos = -1;
 			}
 		} while ((pos < posMinimo) || (pos > posMaximo));
-		for (int i = 0; i < listaVertices.size(); i++) {
-			if (i != pos - 1)
-				listaVertices.get(i).setDistancia(9999);
-		}
 		return vInicio;
 	}
 
 	// método que procura resolver quais os caminhos mínimos, usando Dijkstra
 	public void algoritmoDeDijkstra() {
-		Vertice vOrigem=retornaVInicio();
+		Vertice vOrigem = retornaVInicio();
+		for (int i = 0; i < listaVertices.size(); i++) {
+			if(listaVertices.get(i)!=vOrigem) {
+				listaVertices.get(i).setDistancia(9999);
+			} else {
+				listaVertices.get(i).setDistancia(0);
+			}
+		}
 
 
 	}
