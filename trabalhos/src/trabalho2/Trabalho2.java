@@ -17,6 +17,8 @@ public class Trabalho2 {
 		grafo.cadastraVertice();
 		grafo.cadastraAresta();
 
+		grafo.algoritmoDeDijkstra();
+
 		// o método abaixo confere se as arestas foram inseridas corretamente
 		// grafo.listaDeArestas();
 

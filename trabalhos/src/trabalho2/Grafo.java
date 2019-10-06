@@ -141,6 +141,7 @@ public class Grafo {
 			String nomeV = scan.nextLine();
 			Vertice vertice = new Vertice();
 			vertice.setNomeDoVertice(nomeV);
+			vertice.setVisitado(false);
 			listaVertices.add(vertice);
 			do {
 				System.out.println("Deseja cadastrar mais algum vértice? (s/n)");
@@ -186,6 +187,45 @@ public class Grafo {
 		} else {
 			isValorado = false;
 		}
+	}
+
+	// retorna vértice inicial
+	public Vertice retornaVInicio() {
+		System.out.println("\nEscolhe o vértice de origem (para resolver o problema do caminho mínimo)");
+		Vertice vInicio = new Vertice();
+		Scanner scan = new Scanner(System.in);
+		int posMinimo = 1;
+		int posMaximo = listaVertices.size();
+		int pos = -1;
+		mostrarVertices();
+		do {
+			try {
+				System.out.println("Digite a posição do vértice de origem (posição na lista)");
+				System.out.print("resposta: ");
+				pos = scan.nextInt();
+				scan.nextLine();
+				if ((pos >= posMinimo) && (pos <= posMaximo)) {
+					vInicio = listaVertices.get(pos - 1);
+					listaVertices.get(pos - 1).setDistancia(0);
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("opção inválida");
+				scan.nextLine();
+				pos = -1;
+			}
+		} while ((pos < posMinimo) || (pos > posMaximo));
+		for (int i = 0; i < listaVertices.size(); i++) {
+			if (i != pos - 1)
+				listaVertices.get(i).setDistancia(9999);
+		}
+		return vInicio;
+	}
+
+	// método que procura resolver quais os caminhos mínimos, usando Dijkstra
+	public void algoritmoDeDijkstra() {
+		Vertice vOrigem=retornaVInicio();
+
+
 	}
 
 	// metodo que define se o grafo é orientado
