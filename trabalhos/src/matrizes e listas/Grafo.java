@@ -1,4 +1,3 @@
-package trabalho1;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

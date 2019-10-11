@@ -1,4 +1,3 @@
-package trabalho1;
 
 public class Aresta {
 	//vertice de entrada para a conexão com o outro vertice (saida)
